@@ -1,0 +1,73 @@
+{% extends "bootstrap/base.html" %}
+
+
+{% block title %}电子发票登记系统{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+<link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+
+    <div class="container">
+        <div class="navbar-collapse collapse">
+            {% if current_user.is_authenticated %}
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('account') }}">{{current_user.username}},你好！</a></li>
+            </ul>
+            {% endif %}
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main') }}">电子发票登记</a></li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_administrator()%}
+                    <li><a href="{{ url_for('adminquery') }}">管理员查询</a></li>
+                    {% endif %}
+                <li><a href="{{ url_for('query') }}">查询</a></li>
+                <li><a href="{{ url_for('logout') }}">退出</a></li>
+                {% else %}
+                <li><a href="{{ url_for('login') }}">登录</a></li>
+                <li><a href="{{ url_for('regist') }}">注册</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block page_content %}{% endblock %}
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+<script type="text/javascript">
+    $('#date').datepicker({
+        weekStart: 1,
+        autoclose: true,
+        daysOfWeekHighlighted: "0,6",
+        format: "yyyymmdd",
+        language: "zh-CN"
+    });
+</script>
+{% endblock %}

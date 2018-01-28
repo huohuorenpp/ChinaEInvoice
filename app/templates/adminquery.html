@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}电子发票登记记录{% endblock %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block page_content %}
+<div class="page-header">
+    <h1>发票登记情况</h1>
+</div>
+<div >
+    {{ wtf.quick_form(form) }}
+    <br/>
+</div>
+<div >
+    <form>
+        {%for data in incoicesdata %}
+        <h2>{{data[0]}}发票列表</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>部门</th>
+                    <th>提交日期</th>
+                    <th>发票号码</th>
+                    <th>发票代码</th>
+                    <th>金额（元）</th>
+                    <th>开票日期</th>
+                    <th>附单合计金额（元）</th>
+                    <th>文件</th>
+                <tr>
+            </thead>
+            <tbody>
+            {% for invoice in data[1] %}
+            <tr>
+                <td>{{ invoice.user.username }}</td>
+                <td>{{ invoice.user.department.department_name }}</td>
+                <td>{{ invoice.upload_date }}</td>
+                <td>{{ invoice.number }}</td>
+                <td>{{ invoice.code }}</td>
+                <td>{{ invoice.cost|round(2,'common')  }}</td>
+                <td>{{ invoice.date }}</td>
+                <td>{{ invoice.attached_cost|round(2,'common')  }}</td>
+                <td><a href="{{url_for('static',filename='files/'+invoice.user.id|string+'/'+invoice.filename)}}" target="_blank">{{ invoice.filename }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        {% endfor %}
+</form>
+</div>
+
+{% endblock %}

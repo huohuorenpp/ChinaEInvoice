@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}电子发票登记{% endblock %}
+
+{% block page_content %}
+{% if current_user.is_authenticated %}
+<div class="page-header">
+    <h1>登记</h1>
+    <p>网站支持手动填写和上传电子发票后自动识别</p>
+</div>
+<div class="col-md-4">
+    <h2>自动识别</h2>
+    <p>支持pdf、jpg和png格式的电子发票（为提高识别率，建议使用pdf文件）</p>
+    {{ wtf.quick_form(form) }}
+    <br>
+
+</div>
+<div class="col-md-4">
+    <h2>手动录入</h2>
+    <p>没有电子发票文件？</p>
+    <br><br>
+    <h4> <a href="{{ url_for('InvoiceRegister',filename='#') }}">手动登记</a></h4>
+</div>
+{% else %}
+<h2>请先 <a href="{{ url_for('login') }}">登录</a>.</h2>
+<p>新用户？ <a href="{{ url_for('regist') }}">注册</a>.</p>
+{% endif %}
+{% endblock %}

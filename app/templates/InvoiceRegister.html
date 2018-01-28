@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}发票信息登记{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>登记</h1>
+</div>
+
+{% if load_file=='pdf' %}
+<p>上传文件：</p>
+<iframe src="{{url_for('static',filename='files/'+current_user.id|string+'/'+filename)}}"  style="width:1000px; height:700px;">
+<p>Your browser does not support iframes.</p>
+</iframe>
+{% endif %}
+{% if load_file=='img' %}
+<p>上传文件：</p>
+<img src="{{url_for('static',filename='files/'+current_user.id|string+'/'+filename)}}" style="width:1000px; height:700px;">
+{% endif %}
+
+<div class="col-md-4">
+    <a href="{{ url_for('static', filename='example.jpg') }}" target="_blank">登记示例</a>
+    {{ wtf.quick_form(form) }}
+
+</div>
+{% endblock %}
