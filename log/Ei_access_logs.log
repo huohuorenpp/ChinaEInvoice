@@ -1,3 +1,5 @@
 2018-01-26 16:18:36,194 - WARNING - views.py - logout - 51 - 600116 logout
 2018-01-26 16:19:15,100 - WARNING - views.py - login - 40 - 600116 login success
 2018-01-26 16:54:16,174 - WARNING - views.py - logout - 51 - 600116 logout
+2018-01-28 11:12:19,396 - WARNING - views.py - login - 40 - 600116 login success
+2018-01-28 11:12:52,249 - WARNING - views.py - logout - 51 - 600116 logout
