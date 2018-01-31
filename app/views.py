@@ -94,21 +94,20 @@ def account():
 def InvoiceRegister(filename):
     form = InvoiceRegisterForm()
     if form.validate_on_submit():
-        invoice=Invoice(number=form.num.data,
-                        cost=form.cost.data,
-                        attached_cost=form.attach_cost.data,
-                        date=form.date.data,
-                        check_code=form.check_code.data,
-                        upload_date=datetime.now().date(),
-                        user_id=current_user.id,
-                        filename=filename,
-                        code=form.code.data)
+        invoice = Invoice(number=form.num.data,
+                          cost=form.cost.data,
+                          attached_cost=form.attach_cost.data,
+                          date=form.date.data,
+                          check_code=form.check_code.data,
+                          upload_date=datetime.now().date(),
+                          user_id=current_user.id,
+                          filename=filename,
+                          code=form.code.data)
         db.session.add(invoice)
         db.session.commit()
         app.logger.warn("%s regist invoice %s success" % (current_user.id, form.num.data))
         flash('发票登记成功')
         return redirect(url_for('main'))
-    load_file = ''
     if filename is not '#':
         if filename.endswith('.pdf'):
             load_file = 'pdf'
@@ -117,16 +116,16 @@ def InvoiceRegister(filename):
         # "发票代码","发票号码","金额","开票日期","校验码"
         invoiceinfo = Invoicezbar.getinfo(current_user.id, filename)
         if invoiceinfo[0] is not '':
-            form.code.data=invoiceinfo[0]
-            form.num.data=invoiceinfo[1]
-            form.cost.data=float(invoiceinfo[2])
-            form.date.data=datetime.strptime(invoiceinfo[3],'%Y%m%d').date()
-            form.check_code.data=invoiceinfo[4]
+            form.code.data = invoiceinfo[0]
+            form.num.data = invoiceinfo[1]
+            form.cost.data = float(invoiceinfo[2])
+            form.date.data = datetime.strptime(invoiceinfo[3], '%Y%m%d').date()
+            form.check_code.data = invoiceinfo[4]
             app.logger.warn("user %s's file %s analysis success" % (current_user.id, filename))
         else:
             flash('文件解析失败，请手动填写')
             app.logger.warn("user %s's file %s analysis failed" % (current_user.id, filename))
-    return render_template('InvoiceRegister.html',form=form, load_file=load_file, filename=filename)
+    return render_template('InvoiceRegister.html', form=form, load_file=load_file, filename=filename)
 
 
 @app.route('/query')

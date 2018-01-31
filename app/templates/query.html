@@ -26,7 +26,11 @@
             <td>{{ invoice.cost|round(2,'common') }}</td>
             <td>{{ invoice.date}}</td>
             <td>{{ invoice.attached_cost|round(2,'common') }}</td>
+            {% if invoice.filename != '#'%}
             <td><a href="{{url_for('static',filename='files/'+current_user.id|string+'/'+invoice.filename)}}" target="_blank">{{ invoice.filename }}</a></td>
+            {% else %}
+            <td></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
