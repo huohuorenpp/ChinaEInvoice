@@ -12,17 +12,18 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 def get_qrcode(path):
     file_path = path
-    with Image(filename=file_path, resolution=300) as img:
-        img.crop(0,0,int(img.width/4),int(img.height/4))
-        raw = img.make_blob("png")
-        image = PI.open(io.BytesIO(raw)).convert("RGBA")
-        try:
-            x,y = image.size
-            p = PI.new('RGB', image.size, (255,255,255))
-            p.paste(image,image)
-            return bytes.decode(decode(p)[0][0])
-        except:
-            return bytes.decode(decode(image)[0][0])
+    with open(file_path, 'rb') as fl:
+        with Image(file=fl, resolution=300) as img:
+            img.crop(0,0,int(img.width/4),int(img.height/4))
+            raw = img.make_blob("png")
+            image = PI.open(io.BytesIO(raw)).convert("RGBA")
+            try:
+                x,y = image.size
+                p = PI.new('RGB', image.size, (255,255,255))
+                p.paste(image,image)
+                return bytes.decode(decode(p)[0][0])
+            except:
+                return bytes.decode(decode(image)[0][0])
 
 def get_p_qrcode(path):
     file_path = path
